@@ -1,12 +1,17 @@
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useState } from 'react';
+import { gameStyles } from '@/components/GameStyles';
 
 type Player = 'X' | 'O';
 type Board = (Player | null)[];
 
 export default function HomeScreen() {
+  const { width, height } = useWindowDimensions();
+  const isLandscape = width > height;
+  const gameSize = isLandscape ? height * 0.8 : Math.min(width, height) * 0.8;
+  
   const [board, setBoard] = useState<Board>(Array(9).fill(null));
   const [currentPlayer, setCurrentPlayer] = useState<Player>('X');
   const [scores, setScores] = useState({ X: 0, O: 0 });
@@ -62,43 +67,61 @@ export default function HomeScreen() {
 
   const renderSquare = (index: number) => (
     <TouchableOpacity
-      style={styles.square}
+      style={[
+        gameStyles.square,
+        {
+          width: gameSize / 3,
+          height: gameSize / 3,
+        }
+      ]}
       onPress={() => handlePress(index)}
     >
-      <ThemedText style={styles.squareText}>{board[index]}</ThemedText>
+      <ThemedText style={gameStyles.squareText}>
+        {board[index] === 'X' ? '❌' : board[index] === 'O' ? '🟢' : ''}
+      </ThemedText>
     </TouchableOpacity>
   );
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedView style={styles.scoreContainer}>
-        <ThemedText style={styles.scoreText}>Player X: {scores.X}</ThemedText>
-        <ThemedText style={styles.scoreText}>Player O: {scores.O}</ThemedText>
+    <ThemedView style={[
+      gameStyles.container,
+      isLandscape && {
+        transform: [{ rotate: '90deg' }],
+        width: height,
+        height: width,
+      }
+    ]}>
+      <ThemedView style={gameStyles.scoreContainer}>
+        <ThemedText style={gameStyles.scoreText}>Player X: {scores.X}</ThemedText>
+        <ThemedText style={gameStyles.scoreText}>Player O: {scores.O}</ThemedText>
       </ThemedView>
 
       {winner && (
-        <ThemedView style={styles.winnerContainer}>
-          <ThemedText style={styles.winnerText}>
+        <ThemedView style={gameStyles.winnerContainer}>
+          <ThemedText style={gameStyles.winnerText}>
             {winner === 'draw' ? "It's a draw!" : `Player ${winner} wins!`}
           </ThemedText>
-          <TouchableOpacity style={styles.resetButton} onPress={resetGame}>
-            <ThemedText style={styles.resetButtonText}>Play Again</ThemedText>
+          <TouchableOpacity style={gameStyles.resetButton} onPress={resetGame}>
+            <ThemedText style={gameStyles.resetButtonText}>Play Again</ThemedText>
           </TouchableOpacity>
         </ThemedView>
       )}
 
-      <ThemedView style={styles.board}>
-        <View style={styles.row}>
+      <ThemedView style={[
+        gameStyles.board,
+        { width: gameSize, height: gameSize }
+      ]}>
+        <View style={gameStyles.row}>
           {renderSquare(0)}
           {renderSquare(1)}
           {renderSquare(2)}
         </View>
-        <View style={styles.row}>
+        <View style={gameStyles.row}>
           {renderSquare(3)}
           {renderSquare(4)}
           {renderSquare(5)}
         </View>
-        <View style={styles.row}>
+        <View style={gameStyles.row}>
           {renderSquare(6)}
           {renderSquare(7)}
           {renderSquare(8)}
@@ -106,73 +129,10 @@ export default function HomeScreen() {
       </ThemedView>
 
       {!winner && (
-        <ThemedText style={styles.currentPlayer}>
+        <ThemedText style={gameStyles.currentPlayer}>
           Current Player: {currentPlayer}
         </ThemedText>
       )}
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  scoreContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
-    marginBottom: 20,
-  },
-  scoreText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  board: {
-    borderWidth: 2,
-    borderColor: '#ccc',
-    borderRadius: 5,
-  },
-  row: {
-    flexDirection: 'row',
-  },
-  square: {
-    width: 80,
-    height: 80,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  squareText: {
-    fontSize: 36,
-    fontWeight: 'bold',
-  },
-  currentPlayer: {
-    marginTop: 20,
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  winnerContainer: {
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  winnerText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  resetButton: {
-    backgroundColor: '#007AFF',
-    padding: 10,
-    borderRadius: 5,
-  },
-  resetButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-});
