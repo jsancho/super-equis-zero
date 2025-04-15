@@ -33,7 +33,7 @@ export const gameStyles = StyleSheet.create({
     justifyContent: 'center',
   },
   squareText: {
-    fontSize: 40,
+    fontSize: 60,
     fontWeight: 'bold',
   },
   currentPlayer: {

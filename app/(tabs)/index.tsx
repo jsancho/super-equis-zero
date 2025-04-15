@@ -1,4 +1,4 @@
-import { TouchableOpacity, View, useWindowDimensions } from 'react-native';
+import { TouchableOpacity, Text, View, useWindowDimensions } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useState } from 'react';
@@ -76,9 +76,9 @@ export default function HomeScreen() {
       ]}
       onPress={() => handlePress(index)}
     >
-      <ThemedText style={gameStyles.squareText}>
+      <Text style={gameStyles.squareText}>
         {board[index] === 'X' ? '❌' : board[index] === 'O' ? '🟢' : ''}
-      </ThemedText>
+      </Text>
     </TouchableOpacity>
   );
 
