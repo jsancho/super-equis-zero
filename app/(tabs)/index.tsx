@@ -130,7 +130,7 @@ export default function HomeScreen() {
 
       {!winner && (
         <ThemedText style={gameStyles.currentPlayer}>
-          Current Player: {currentPlayer}
+          Current Player:  {currentPlayer === 'X' ? '❌' : '🟢'}
         </ThemedText>
       )}
     </ThemedView>

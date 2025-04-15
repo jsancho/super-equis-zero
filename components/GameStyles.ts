@@ -38,7 +38,7 @@ export const gameStyles = StyleSheet.create({
   },
   currentPlayer: {
     marginTop: 20,
-    fontSize: 25,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   winnerContainer: {
