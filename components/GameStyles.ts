@@ -14,7 +14,7 @@ export const gameStyles = StyleSheet.create({
     marginBottom: 20,
   },
   scoreText: {
-    fontSize: 25,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   board: {
