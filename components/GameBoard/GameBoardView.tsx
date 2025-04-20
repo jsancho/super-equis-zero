@@ -125,6 +125,7 @@ export default function GameBoardView() {
           height: canvasSize / boardSize,
         },
       ]}
+      key={index}
       onPress={() => handlePress(index)}
     >
       <Text style={gameStyles.squareText}>
