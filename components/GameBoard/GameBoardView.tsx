@@ -16,28 +16,61 @@ export default function GameBoardView() {
   const { width, height } = useWindowDimensions();
   const isLandscape = width > height;
   const canvasSize = isLandscape ? height * 0.8 : Math.min(width, height) * 0.8;
+  const [boardSize, setBoardSize] = useState(4); // Default to 3x3
 
-  const [board, setBoard] = useState<Board>(Array(9).fill(null));
+  const [board, setBoard] = useState<Board>(
+    Array(boardSize * boardSize).fill(null)
+  );
   const [currentPlayer, setCurrentPlayer] = useState<Player>("X");
   const [scores, setScores] = useState({ X: 0, O: 0 });
   const [winner, setWinner] = useState<Player | "draw" | null>(null);
 
   const checkWinner = (board: Board): Player | "draw" | null => {
-    const winningCombinations = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8], // rows
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8], // columns
-      [0, 4, 8],
-      [2, 4, 6], // diagonals
-    ];
+    // Generate winning combinations for any board size
+    const combinations: number[][] = [];
 
-    for (const combination of winningCombinations) {
-      const [a, b, c] = combination;
-      if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-        return board[a] as Player;
+    // Check rows
+    for (let row = 0; row < boardSize; row++) {
+      for (let col = 0; col <= boardSize - boardSize; col++) {
+        const combination = [];
+        for (let i = 0; i < boardSize; i++) {
+          combination.push(row * boardSize + col + i);
+        }
+        combinations.push(combination);
+      }
+    }
+
+    // Check columns
+    for (let col = 0; col < boardSize; col++) {
+      for (let row = 0; row <= boardSize - boardSize; row++) {
+        const combination = [];
+        for (let i = 0; i < boardSize; i++) {
+          combination.push((row + i) * boardSize + col);
+        }
+        combinations.push(combination);
+      }
+    }
+
+    // Check diagonals
+    for (let row = 0; row <= boardSize - boardSize; row++) {
+      for (let col = 0; col <= boardSize - boardSize; col++) {
+        // Main diagonal
+        const mainDiagonal = [];
+        // Anti-diagonal
+        const antiDiagonal = [];
+        for (let i = 0; i < boardSize; i++) {
+          mainDiagonal.push((row + i) * boardSize + (col + i));
+          antiDiagonal.push((row + i) * boardSize + (col + boardSize - 1 - i));
+        }
+        combinations.push(mainDiagonal);
+        combinations.push(antiDiagonal);
+      }
+    }
+
+    for (const combination of combinations) {
+      const first = board[combination[0]];
+      if (first && combination.every((index) => board[index] === first)) {
+        return first as Player;
       }
     }
 
@@ -70,7 +103,7 @@ export default function GameBoardView() {
   };
 
   const resetGame = () => {
-    setBoard(Array(9).fill(null));
+    setBoard(Array(boardSize * boardSize).fill(null));
     setCurrentPlayer("X");
     setWinner(null);
   };
@@ -80,8 +113,8 @@ export default function GameBoardView() {
       style={[
         gameStyles.square,
         {
-          width: canvasSize / 3,
-          height: canvasSize / 3,
+          width: canvasSize / boardSize,
+          height: canvasSize / boardSize,
         },
       ]}
       onPress={() => handlePress(index)}
@@ -91,6 +124,22 @@ export default function GameBoardView() {
       </Text>
     </TouchableOpacity>
   );
+
+  const renderBoard = () => {
+    const rows = [];
+    for (let i = 0; i < boardSize; i++) {
+      const row = [];
+      for (let j = 0; j < boardSize; j++) {
+        row.push(renderSquare(i * boardSize + j));
+      }
+      rows.push(
+        <View key={i} style={gameStyles.row}>
+          {row}
+        </View>
+      );
+    }
+    return rows;
+  };
 
   return (
     <ThemedView
@@ -128,21 +177,7 @@ export default function GameBoardView() {
       <ThemedView
         style={[gameStyles.board, { width: canvasSize, height: canvasSize }]}
       >
-        <View style={gameStyles.row}>
-          {renderSquare(0)}
-          {renderSquare(1)}
-          {renderSquare(2)}
-        </View>
-        <View style={gameStyles.row}>
-          {renderSquare(3)}
-          {renderSquare(4)}
-          {renderSquare(5)}
-        </View>
-        <View style={gameStyles.row}>
-          {renderSquare(6)}
-          {renderSquare(7)}
-          {renderSquare(8)}
-        </View>
+        {renderBoard()}
       </ThemedView>
 
       {!winner && (
