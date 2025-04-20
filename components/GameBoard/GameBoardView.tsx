@@ -6,8 +6,9 @@ import {
 } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { gameStyles } from "@/components/GameBoard/styles";
+import { useGameSettingsStore } from "@/stores/useGameSettingsStore";
 
 type Player = "X" | "O";
 type Board = (Player | null)[];
@@ -16,7 +17,7 @@ export default function GameBoardView() {
   const { width, height } = useWindowDimensions();
   const isLandscape = width > height;
   const canvasSize = isLandscape ? height * 0.8 : Math.min(width, height) * 0.8;
-  const [boardSize, setBoardSize] = useState(4); // Default to 3x3
+  const boardSize = useGameSettingsStore((state) => state.boardSize);
 
   const [board, setBoard] = useState<Board>(
     Array(boardSize * boardSize).fill(null)
@@ -24,6 +25,13 @@ export default function GameBoardView() {
   const [currentPlayer, setCurrentPlayer] = useState<Player>("X");
   const [scores, setScores] = useState({ X: 0, O: 0 });
   const [winner, setWinner] = useState<Player | "draw" | null>(null);
+
+  // Reset the board when boardSize changes
+  useEffect(() => {
+    setBoard(Array(boardSize * boardSize).fill(null));
+    setCurrentPlayer("X");
+    setWinner(null);
+  }, [boardSize]);
 
   const checkWinner = (board: Board): Player | "draw" | null => {
     // Generate winning combinations for any board size
