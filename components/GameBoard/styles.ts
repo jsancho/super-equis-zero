@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-export const gameStyles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
@@ -34,10 +34,6 @@ export const gameStyles = StyleSheet.create({
   },
   squareText: {
     fontSize: 60,
-    fontWeight: "bold",
-  },
-  currentPlayer: {
-    fontSize: 18,
     fontWeight: "bold",
   },
 });

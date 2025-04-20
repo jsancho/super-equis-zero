@@ -7,7 +7,7 @@ import {
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { useState, useEffect } from "react";
-import { gameStyles } from "@/components/GameBoard/styles";
+import { styles } from "@/components/GameBoard/styles";
 import { useGameSettingsStore } from "@/stores/useGameSettingsStore";
 import { GameStatus } from "@/components/GameStatus";
 
@@ -119,7 +119,7 @@ export default function GameBoardView() {
   const renderSquare = (index: number) => (
     <TouchableOpacity
       style={[
-        gameStyles.square,
+        styles.square,
         {
           width: canvasSize / boardSize,
           height: canvasSize / boardSize,
@@ -128,7 +128,7 @@ export default function GameBoardView() {
       key={index}
       onPress={() => handlePress(index)}
     >
-      <Text style={gameStyles.squareText}>
+      <Text style={styles.squareText}>
         {board[index] === "X" ? "❌" : board[index] === "O" ? "🟢" : ""}
       </Text>
     </TouchableOpacity>
@@ -142,7 +142,7 @@ export default function GameBoardView() {
         row.push(renderSquare(i * boardSize + j));
       }
       rows.push(
-        <View key={i} style={gameStyles.row}>
+        <View key={i} style={styles.row}>
           {row}
         </View>
       );
@@ -151,18 +151,14 @@ export default function GameBoardView() {
   };
 
   return (
-    <ThemedView style={gameStyles.container}>
-      <ThemedView style={gameStyles.scoreContainer}>
-        <ThemedText style={gameStyles.scoreText}>
-          Player ❌: {scores.X}
-        </ThemedText>
-        <ThemedText style={gameStyles.scoreText}>
-          Player 🟢: {scores.O}
-        </ThemedText>
+    <ThemedView style={styles.container}>
+      <ThemedView style={styles.scoreContainer}>
+        <ThemedText style={styles.scoreText}>Player ❌: {scores.X}</ThemedText>
+        <ThemedText style={styles.scoreText}>Player 🟢: {scores.O}</ThemedText>
       </ThemedView>
 
       <ThemedView
-        style={[gameStyles.board, { width: canvasSize, height: canvasSize }]}
+        style={[styles.board, { width: canvasSize, height: canvasSize }]}
       >
         {renderBoard()}
       </ThemedView>

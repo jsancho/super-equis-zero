@@ -1,7 +1,6 @@
 import { TouchableOpacity } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { gameStyles } from "@/components/GameBoard/styles";
 import React from "react";
 import { styles } from "./styles";
 type Player = "X" | "O";
@@ -31,7 +30,7 @@ export function GameStatus({
       )}
 
       {!winner && (
-        <ThemedText style={gameStyles.currentPlayer}>
+        <ThemedText style={styles.currentPlayer}>
           Current Player: {currentPlayer === "X" ? "❌" : "🟢"}
         </ThemedText>
       )}
