@@ -1,15 +1,16 @@
+import React from "react";
 import {
   TouchableOpacity,
   Text,
   View,
   useWindowDimensions,
 } from "react-native";
-import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { useState, useEffect } from "react";
 import { styles } from "@/components/GameBoard/styles";
 import { useGameSettingsStore } from "@/stores/useGameSettingsStore";
 import { GameStatus } from "@/components/GameStatus";
+import { PlayerScore } from "@/components/PlayerScore";
 
 type Player = "X" | "O";
 type Board = (Player | null)[];
@@ -153,8 +154,16 @@ export default function GameBoardView() {
   return (
     <ThemedView style={styles.container}>
       <ThemedView style={styles.scoreContainer}>
-        <ThemedText style={styles.scoreText}>Player ❌: {scores.X}</ThemedText>
-        <ThemedText style={styles.scoreText}>Player 🟢: {scores.O}</ThemedText>
+        <PlayerScore
+          player="X"
+          score={scores.X}
+          isCurrentPlayer={currentPlayer === "X"}
+        />
+        <PlayerScore
+          player="O"
+          score={scores.O}
+          isCurrentPlayer={currentPlayer === "O"}
+        />
       </ThemedView>
 
       <ThemedView

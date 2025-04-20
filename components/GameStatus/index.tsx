@@ -11,11 +11,7 @@ interface GameStatusProps {
   onReset: () => void;
 }
 
-export function GameStatus({
-  winner,
-  currentPlayer,
-  onReset,
-}: GameStatusProps) {
+export function GameStatus({ winner, onReset }: GameStatusProps) {
   return (
     <ThemedView style={styles.statusContainer}>
       {winner && (
@@ -27,12 +23,6 @@ export function GameStatus({
             <ThemedText style={styles.resetButtonText}>Play Again</ThemedText>
           </TouchableOpacity>
         </>
-      )}
-
-      {!winner && (
-        <ThemedText style={styles.currentPlayer}>
-          Current Player: {currentPlayer === "X" ? "❌" : "🟢"}
-        </ThemedText>
       )}
     </ThemedView>
   );

@@ -21,8 +21,4 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-  currentPlayer: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
 });

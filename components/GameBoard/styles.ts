@@ -13,10 +13,7 @@ export const styles = StyleSheet.create({
     width: "100%",
     marginBottom: 20,
   },
-  scoreText: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
+
   board: {
     borderWidth: 2,
     borderColor: "#ccc",
