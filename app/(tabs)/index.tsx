@@ -1,5 +1,5 @@
-import GameBoardView from "@/components/GameBoard/GameBoardView";
+import GameBoard from "@/components/GameBoard";
 
 export default function GameBoardScreen() {
-  return <GameBoardView />;
+  return <GameBoard />;
 }

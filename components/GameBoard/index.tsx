@@ -9,6 +9,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { useState, useEffect } from "react";
 import { gameStyles } from "@/components/GameBoard/styles";
 import { useGameSettingsStore } from "@/stores/useGameSettingsStore";
+import { GameStatus } from "@/components/GameStatus";
 
 type Player = "X" | "O";
 type Board = (Player | null)[];
@@ -160,30 +161,17 @@ export default function GameBoardView() {
         </ThemedText>
       </ThemedView>
 
-      {winner && (
-        <ThemedView style={gameStyles.winnerContainer}>
-          <ThemedText style={gameStyles.winnerText}>
-            {winner === "draw" ? "It's a draw!" : `Player ${winner} wins!`}
-          </ThemedText>
-          <TouchableOpacity style={gameStyles.resetButton} onPress={resetGame}>
-            <ThemedText style={gameStyles.resetButtonText}>
-              Play Again
-            </ThemedText>
-          </TouchableOpacity>
-        </ThemedView>
-      )}
-
       <ThemedView
         style={[gameStyles.board, { width: canvasSize, height: canvasSize }]}
       >
         {renderBoard()}
       </ThemedView>
 
-      {!winner && (
-        <ThemedText style={gameStyles.currentPlayer}>
-          Current Player: {currentPlayer === "X" ? "❌" : "🟢"}
-        </ThemedText>
-      )}
+      <GameStatus
+        winner={winner}
+        currentPlayer={currentPlayer}
+        onReset={resetGame}
+      />
     </ThemedView>
   );
 }

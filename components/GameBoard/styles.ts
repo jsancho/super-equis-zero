@@ -37,27 +37,7 @@ export const gameStyles = StyleSheet.create({
     fontWeight: "bold",
   },
   currentPlayer: {
-    marginTop: 20,
     fontSize: 18,
-    fontWeight: "bold",
-  },
-  winnerContainer: {
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  winnerText: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  resetButton: {
-    backgroundColor: "#007AFF",
-    padding: 10,
-    borderRadius: 5,
-  },
-  resetButtonText: {
-    color: "white",
-    fontSize: 16,
     fontWeight: "bold",
   },
 });
