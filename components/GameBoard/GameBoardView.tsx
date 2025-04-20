@@ -15,8 +15,7 @@ type Board = (Player | null)[];
 
 export default function GameBoardView() {
   const { width, height } = useWindowDimensions();
-  const isLandscape = width > height;
-  const canvasSize = isLandscape ? height * 0.8 : Math.min(width, height) * 0.8;
+  const canvasSize = Math.min(width, height) * 0.9;
   const boardSize = useGameSettingsStore((state) => state.boardSize);
 
   const [board, setBoard] = useState<Board>(
@@ -151,16 +150,7 @@ export default function GameBoardView() {
   };
 
   return (
-    <ThemedView
-      style={[
-        gameStyles.container,
-        isLandscape && {
-          transform: [{ rotate: "90deg" }],
-          width: height,
-          height: width,
-        },
-      ]}
-    >
+    <ThemedView style={gameStyles.container}>
       <ThemedView style={gameStyles.scoreContainer}>
         <ThemedText style={gameStyles.scoreText}>
           Player ❌: {scores.X}
