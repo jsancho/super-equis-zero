@@ -5,7 +5,6 @@ import {
   View,
   useWindowDimensions,
 } from "react-native";
-import { ThemedView } from "@/components/ThemedView";
 import { useState, useEffect } from "react";
 import { styles } from "@/components/GameBoard/styles";
 import { useGameSettingsStore } from "@/stores/useGameSettingsStore";
@@ -152,8 +151,8 @@ export default function GameBoardView() {
   };
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedView style={styles.scoreContainer}>
+    <View style={styles.container}>
+      <View style={styles.scoreContainer}>
         <PlayerScore
           player="X"
           score={scores.X}
@@ -164,19 +163,17 @@ export default function GameBoardView() {
           score={scores.O}
           isCurrentPlayer={currentPlayer === "O"}
         />
-      </ThemedView>
+      </View>
 
-      <ThemedView
-        style={[styles.board, { width: canvasSize, height: canvasSize }]}
-      >
+      <View style={[styles.board, { width: canvasSize, height: canvasSize }]}>
         {renderBoard()}
-      </ThemedView>
+      </View>
 
       <GameStatus
         winner={winner}
         currentPlayer={currentPlayer}
         onReset={resetGame}
       />
-    </ThemedView>
+    </View>
   );
 }

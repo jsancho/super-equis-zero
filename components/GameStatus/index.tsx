@@ -1,6 +1,4 @@
-import { TouchableOpacity } from "react-native";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+import { Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { styles } from "./styles";
 type Player = "X" | "O";
@@ -13,17 +11,17 @@ interface GameStatusProps {
 
 export function GameStatus({ winner, onReset }: GameStatusProps) {
   return (
-    <ThemedView style={styles.statusContainer}>
+    <View style={styles.statusContainer}>
       {winner && (
         <>
-          <ThemedText style={styles.gameOverText}>
+          <Text style={styles.gameOverText}>
             {winner === "draw" ? "It's a draw!" : `Player ${winner} wins!`}
-          </ThemedText>
+          </Text>
           <TouchableOpacity style={styles.resetButton} onPress={onReset}>
-            <ThemedText style={styles.resetButtonText}>Play Again</ThemedText>
+            <Text style={styles.resetButtonText}>Play Again</Text>
           </TouchableOpacity>
         </>
       )}
-    </ThemedView>
+    </View>
   );
 }

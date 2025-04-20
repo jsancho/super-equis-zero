@@ -1,7 +1,6 @@
 import React from "react";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
 import { styles } from "@/components/PlayerScore/styles";
+import { Text, View } from "react-native";
 
 type Player = "X" | "O";
 
@@ -17,18 +16,16 @@ export function PlayerScore({
   isCurrentPlayer,
 }: PlayerScoreProps) {
   return (
-    <ThemedView
+    <View
       style={[
         styles.playerScoreContainer,
         isCurrentPlayer && styles.highlightedScoreText,
       ]}
     >
-      <ThemedText style={styles.scoreText}>
+      <Text style={styles.scoreText}>
         Player {player === "X" ? "❌" : "🟢"}: {score}
-      </ThemedText>
-      {isCurrentPlayer && (
-        <ThemedText style={styles.yourTurnText}>Your turn</ThemedText>
-      )}
-    </ThemedView>
+      </Text>
+      {isCurrentPlayer && <Text style={styles.yourTurnText}>Your turn</Text>}
+    </View>
   );
 }
